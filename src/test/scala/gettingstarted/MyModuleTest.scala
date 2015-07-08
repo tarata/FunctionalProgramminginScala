@@ -23,4 +23,13 @@ class MyModuleTest extends FunSuite with TableDrivenPropertyChecks{
     }
   }
 
+
+
+  test("Exercise 2.2 isSorted") {
+    def ordered(x:Int, y:Int):Boolean = x <= y
+
+    assert( isSorted[Int](Array(0, 1, 2), ordered) === true )
+
+    assert( isSorted[Int](Array(0, 2, 1), ordered) === false)
+  }
 }
