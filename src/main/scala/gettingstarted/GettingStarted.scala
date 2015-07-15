@@ -70,4 +70,24 @@ object MyModule {
 
     loop(0)
   }
+
+  // コンパイルできる実装は１つだけ
+  // りんごとバナナをくれたらその見返りとして人参をあげよう
+  // りんごはもうもらったからバナナだけくれたら人参をあげようというもの
+  def partial1[A,B,C](a: A, f:(A,B) => C): B => C = (b: B) => f(a, b)
+
+  // Ex2.3
+  // カリー化
+  def curry[A,B,C](f: (A,B) => C): A => (B => C) = (a: A) => (b: B) => f(a, b)
+
+  // Ex2.4
+  def uncurry[A,B,C](f: A => B => C): (A,B) => C = (a:A, b:B) => f(a)(b)
+
+  // 関数合成
+  // Ex 2.5
+  def compose[A,B,C](f:B => C, g:A => B): A => C = (a:A) => f(g(a))
+
+//  def compose[A,B,C](f:B => C, g:A => B): A => C = (a:A) => f andThen g
+
+
 }
