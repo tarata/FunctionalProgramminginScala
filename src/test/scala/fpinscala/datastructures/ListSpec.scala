@@ -1,0 +1,20 @@
+package fpinscala.datastructures
+
+import org.scalatest.FreeSpec
+import org.scalatest.Matchers._
+
+class ListSpec extends FreeSpec {
+
+  "Exercise 3.1" - {
+    "Match Result will be x + y = 3" in {
+      val x = List(1,2,3,4,5) match {
+        case Cons(x, Cons(2, Cons(4, _))) => x
+        case Nil => 42
+        case Cons(x, Cons(y, Cons(3, Cons(4, _)))) => x + y
+        case _ => 101
+      }
+
+      x should be (3)
+    }
+  }
+}
