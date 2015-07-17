@@ -1,10 +1,28 @@
 package fpinscala.datastructures
 
-sealed trait List[+A]
+sealed trait List[+A] {
+  def tail: List[A]
 
-case object Nil extends List[Nothing]
+  def setHead[T >: A](elm: T): List[T]
 
-case class Cons[+A] (head:A, tail: List[A]) extends List[A]
+  //これだと出来ない
+  //  def setHead[A](elm: A): List[A]
+}
+
+case object Nil extends List[Nothing] {
+  override def tail:List[Nothing] = Nil
+
+  override def setHead[T >: Nothing](elm:T) :List[Nothing] = Nil
+}
+
+case class Cons[+A] (h:A, t: List[A]) extends List[A] {
+  override def tail:List[A] = t
+
+  override def setHead[T >: A](elm: T): List[T] = copy[T](h = elm)
+
+//これだと出来ない
+//  override def setHead[A](elm: A): List[A] = copy[A](h = elm)
+}
 
 object List {
   def sum(ints: List[Int]): Int = ints match {
