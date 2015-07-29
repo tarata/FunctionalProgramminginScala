@@ -61,4 +61,49 @@ class ListSpec extends FreeSpec {
       List.init(x) should be (List(1,2,3,4))
     }
   }
+
+  "Exercise 3.7" - {
+    /*
+     * 出来ない
+     * foldRightが全て展開されてから評価されていくため
+     */
+  }
+
+  "Exercise 3.8" - {
+    val actual = List.foldRight(List(1,2,3), Nil:List[Int])(Cons(_,_))
+    // println(actual)
+    // Cons(1,Cons(2,Cons(3,Nil)))
+    /*
+     * List(1,2,3)
+     * Cons(1, List(2,3)) => Cons(1, foldRight(List(2,3), Nil)(Cons(_,_))
+     * Cons(1, Cons(2, List(3))
+     * ただ展開してるだけ
+     * array_walk的な
+     */
+  }
+
+  "Exercise 3.9" - {
+    "List(1,2,3)'s length will be 3" in {
+      val actual = List.length(List(1,2,3))
+      actual should be (3)
+    }
+  }
+
+  "Exercise 3.10" - {
+    // implemented
+  }
+
+  "Exercise 3.11" - {
+    "sum3 of List(1,2,3) will be 6" in {
+      List.sum3(List(1,2,3)) should be (6)
+    }
+
+    "product3 of List(1,2,3) will be 6" in {
+      List.product3(List(1,2,3)) should be (6)
+    }
+
+    "length3 of List(1,2,3,4,5) will be 5" in {
+      List.length3(List(1,2,3,4,5)) should be(5)
+    }
+  }
 }
