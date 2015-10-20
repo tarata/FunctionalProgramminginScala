@@ -111,4 +111,8 @@ object List {
     case Cons(x, xs) => List.append(reverse(xs), Cons(x, Nil))
   }
 
+  def append2[A](a1: List[A], a2: List[A]): List[A] = foldLeft(a1, a2){(x, y) =>
+    x
+  }
+
 }
