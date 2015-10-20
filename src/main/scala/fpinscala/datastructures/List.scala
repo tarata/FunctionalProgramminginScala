@@ -106,8 +106,9 @@ object List {
 
   def length3[A](as: List[A]): Int = foldLeft(as, 0)((n, _) => n + 1)
 
-//  def reverse[A](as: List[A]): List[A] = as match {
-//    case Nil => Nil
-//    case Cons(x, xs) => Cons(x, Nil)
-//  }
+  def reverse[A](as: List[A]): List[A] = as match {
+    case Nil => Nil
+    case Cons(x, xs) => List.append(reverse(xs), Cons(x, Nil))
+  }
+
 }
