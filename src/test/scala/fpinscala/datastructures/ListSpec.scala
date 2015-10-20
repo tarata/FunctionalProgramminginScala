@@ -106,4 +106,14 @@ class ListSpec extends FreeSpec {
       List.length3(List(1,2,3,4,5)) should be(5)
     }
   }
+
+  "Exercise 3.12" - {
+    "reverse of Nil will be Nil" in {
+      List.reverse(Nil) should be (Nil)
+    }
+
+    "reverse of List(1,2,3) will be List(3,2,1)" in {
+      List.reverse(List(1,2,3)) should be (List(3,2,1))
+    }
+  }
 }
