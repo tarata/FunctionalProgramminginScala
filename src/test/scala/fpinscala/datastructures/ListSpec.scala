@@ -126,4 +126,10 @@ class ListSpec extends FreeSpec {
       List.addOne(List(1,2,3)) shouldBe List(2,3,4)
     }
   }
+
+  "Exercise 3.17" - {
+    "doubleToString of List(1.1) should be List('1.1')" in {
+      List.doubleToString(List(1.1)) shouldBe List("1.1")
+    }
+  }
 }
