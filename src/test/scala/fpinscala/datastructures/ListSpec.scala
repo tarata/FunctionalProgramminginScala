@@ -40,25 +40,25 @@ class ListSpec extends FreeSpec {
   "Exercise 3.4" - {
     "drop return n data removed List" in {
       val x = List(1,2,3)
-      List.drop(x, 2) should be (List(3))
+      x.drop(2) should be (List(3))
     }
 
     "drop Nil return Nil" in {
-      List.drop(Nil, 1) should be (Nil)
+      Nil.drop(1) should be (Nil)
     }
   }
 
   "Exercise 3.5" - {
     "dropWhile return n data removed List" in {
       val x = List(1,2,3,4,5)
-      List.dropWhile(x, (y:Int) => y <= 3) should be (List(4,5))
+      x.dropWhile((y:Int) => y <= 3) should be (List(4,5))
     }
   }
 
   "Exercese 3.6" - {
     "init remove last element" in {
       val x = List(1,2,3,4,5)
-      List.init(x) should be (List(1,2,3,4))
+      x.init should be (List(1,2,3,4))
     }
   }
 
@@ -114,6 +114,16 @@ class ListSpec extends FreeSpec {
 
     "reverse of List(1,2,3) will be List(3,2,1)" in {
       List.reverse(List(1,2,3)) should be (List(3,2,1))
+    }
+  }
+
+  "Exercise 3.16" - {
+    "addOne of Nil should be Nil" in {
+      List.addOne(Nil) shouldBe Nil
+    }
+
+    "addOne of List(1,2,3) should be List(2,3,4)" in {
+      List.addOne(List(1,2,3)) shouldBe List(2,3,4)
     }
   }
 }
