@@ -10,7 +10,30 @@ sealed trait List[+A] {
   //これだと出来ない
   //  def setHead[A](elm: A): List[A]
 
+  def drop(n: Int): List[A] =
+    if(n == 0)this
+    else tail.drop(n-1)
 
+  def dropWhile(f: A => Boolean): List[A] =
+    this match {
+      case Nil => Nil
+      case Cons(h, t) =>
+        if(f(h)) tail.dropWhile(f)
+        else this
+    }
+
+  def init(): List[A] = {
+    def initIter(l: List[A] = this, acc:List[A] = Nil): List[A] = {
+      l match {
+        case Nil => Nil
+        case Cons(h, t) if t == Nil =>
+          acc
+        case Cons(h, t) =>
+          initIter(t, List.append(acc, Cons(h, Nil)))
+      }
+    }
+    initIter()
+  }
 }
 
 case object Nil extends List[Nothing] {
@@ -50,32 +73,9 @@ object List {
     if(as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
 
-  def drop[A](l: List[A], n: Int): List[A] =
-    if(n == 0)l
-    else drop(l.tail, n - 1)
 
-  def dropWhile[A](l: List[A], f: A => Boolean): List[A] =
-    l match {
-      case Nil => Nil
-      case Cons(h, t) =>
-        if(f(h)) dropWhile(t, f)
-        else l
-    }
 
-  def init[A](l :List[A]): List[A] = {
-    def initIter(l: List[A] = l, acc:List[A] = Nil): List[A] = {
-      l match {
-        case Nil => Nil
-        case Cons(h, t) if t == Nil =>
-          acc
-        case Cons(h, t) =>
-          initIter(t, List.append(acc, Cons(h, Nil)))
-      }
-    }
-    initIter()
-  }
-
-  def append[A](a1: List[A], a2: List[A]): List[A] =
+ def append[A](a1: List[A], a2: List[A]): List[A] =
     a1 match {
       case Nil => a2
       case Cons(h ,t) => Cons(h, append(t, a2))
@@ -115,4 +115,10 @@ object List {
     x
   }
 
+  def addOne(list:List[Int]): List[Int] = {
+    list match {
+      case Nil => Nil
+      case Cons(h, t) => Cons(h + 1, addOne(t))
+    }
+  }
 }
