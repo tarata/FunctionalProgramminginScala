@@ -128,4 +128,23 @@ object List {
       case Cons(h, t) => Cons(h.toString, doubleToString(t))
     }
   }
+
+  def map[A, B](as: List[A])(f: A => B): List[B] =
+    as match {
+      case Nil => Nil
+      case Cons(h, t) => Cons(f(h), map(t)(f))
+    }
+
+  def filter[A](as: List[A])(f: A => Boolean): List[A] =
+    as match {
+      case Nil => Nil
+      case Cons(h, t) if !f(h) => filter(t)(f)
+      case Cons(h, t) => Cons(h, filter(t)(f))
+    }
+
+  def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] =
+    as match {
+      case Nil => Nil
+      case Cons(h, t) => List.append(f(h), flatMap(t)(f))
+    }
 }

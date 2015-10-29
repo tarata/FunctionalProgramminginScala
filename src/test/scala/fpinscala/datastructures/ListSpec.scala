@@ -132,4 +132,16 @@ class ListSpec extends FreeSpec {
       List.doubleToString(List(1.1)) shouldBe List("1.1")
     }
   }
+
+  "Exercise 3.19" - {
+    "filter of List(1,2,3,4,5) should be List(2,4)" in {
+      List.filter(List(1,2,3,4,5))(i => i%2 == 0) shouldBe List(2,4)
+    }
+  }
+
+  "Exercise 3.20" - {
+    "flatMap of List(1,2,3)(i => List(i,i)) should be List(1,1,2,2,3,3)" in {
+      List.flatMap(List(1,2,3))(i => List(i,i)) shouldBe List(1,1,2,2,3,3)
+    }
+  }
 }
