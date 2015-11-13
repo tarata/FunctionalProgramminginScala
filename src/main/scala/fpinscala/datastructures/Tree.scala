@@ -44,4 +44,11 @@ object Tree {
       case Branch(l, r) => maximum(l) max maximum(r)
     }
   }
+
+  def maximum2(tree: Tree[Int]): Int = {
+    tree.fold(0)((m, t) => m max (t match {
+      case Leaf(v) => v
+      case Branch(l, r) => maximum2(l) max maximum2(r)
+    }))
+  }
 }

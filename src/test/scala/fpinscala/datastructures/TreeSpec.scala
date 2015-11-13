@@ -57,5 +57,9 @@ class TreeSpec extends FreeSpec with Matchers {
     "the depth2 should be 4" in {
       Branch(Branch(Branch(Leaf(1), Leaf(2)), Leaf(4)), Leaf(3)).depth2 shouldBe 4
     }
+
+    "the maximum should be 3" in {
+      maximum2(Branch(Branch(Leaf(1), Leaf(2)), Leaf(3))) shouldBe 3
+    }
   }
 }
