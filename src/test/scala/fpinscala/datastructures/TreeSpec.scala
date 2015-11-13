@@ -21,4 +21,10 @@ class TreeSpec extends FreeSpec with Matchers {
     }
   }
 
+  "Exercise 3.27" - {
+    "the depth should be 2" in {
+      Branch(Branch(Leaf(1), Leaf(2)), Leaf(3)).depth shouldBe 2
+    }
+  }
+
 }
