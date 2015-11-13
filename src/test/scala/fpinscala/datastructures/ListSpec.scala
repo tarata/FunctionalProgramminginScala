@@ -144,4 +144,22 @@ class ListSpec extends FreeSpec {
       List.flatMap(List(1,2,3))(i => List(i,i)) shouldBe List(1,1,2,2,3,3)
     }
   }
+
+  "Exercise 3.21" - {
+    "filter2 of List(1,2,3,4,5) should be List(2,4)" in {
+      List.filter2(List(1,2,3,4,5))(i => i%2 == 0) shouldBe List(2,4)
+    }
+  }
+
+  "Exercise 3.22" - {
+    "zipPlus of List(1,2,3) and List(4,5,6) should be List(5,7,9)" in {
+      List.zipPlus(List(1,2,3), List(4,5,6)) shouldBe List(5,7,9)
+    }
+  }
+
+  "Exercise 3.23" - {
+    "zipPlus in zipWith List(1,2,3) and List(4,5,6) should be List(5,7,9)" in {
+      List.zipWith(List(1,2,3), List(4,5,6)) {(x,y) => x + y} shouldBe List(5,7,9)
+    }
+  }
 }
