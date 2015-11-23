@@ -2,6 +2,15 @@ package errorhandling
 
 import org.scalatest.{FreeSpec, Matchers}
 
+class Chapter4Spec extends FreeSpec with Matchers {
+  import Chapter4._
+  "Ex 4.2" - {
+    "variance of 1,2,3,4 should be 1.25" in {
+      variance(Seq(1,2,3,4)) shouldBe Some(1.25)
+    }
+  }
+}
+
 class OptionSpec extends FreeSpec with Matchers{
 
   "Ex 4.1" - {
@@ -31,5 +40,6 @@ class OptionSpec extends FreeSpec with Matchers{
       None.orElse(Some(2)) shouldBe Some(2)
     }
   }
+
 
 }
