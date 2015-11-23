@@ -22,3 +22,23 @@ sealed trait Option[+A] {
 case class Some[+A](get: A) extends Option[A]
 
 case object None extends Option[Nothing]
+
+object Chapter4 {
+  def variance(xs: Seq[Double]): Option[Double] = {
+    (try {
+      Some(xs.sum / xs.size)
+    } catch {
+      case e: Exception => None
+    }).flatMap(m =>
+      try {
+        Some(
+          xs.map { x =>
+            math.pow(x - m, 2)
+          }.sum / xs.size
+        )
+      } catch {
+        case e: Exception => None
+      }
+    )
+  }
+}
