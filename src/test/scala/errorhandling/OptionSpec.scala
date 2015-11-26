@@ -9,6 +9,22 @@ class Chapter4Spec extends FreeSpec with Matchers {
       variance(Seq(1,2,3,4)) shouldBe Some(1.25)
     }
   }
+
+  "Ex 4.3" - {
+    "map2" - {
+
+      "return Some(2) when a and b is Some(1)" in {
+        map2(Some(1), Some(1))((x,y) => x + y) shouldBe Some(2)
+      }
+      "return None when a is None" in {
+        map2(None, Some(1))((_, x) => x + 1) shouldBe None
+      }
+
+      "return None when b is None" in {
+        map2(Some(1), None)((x, _) => x + 1) shouldBe None
+      }
+    }
+  }
 }
 
 class OptionSpec extends FreeSpec with Matchers{
