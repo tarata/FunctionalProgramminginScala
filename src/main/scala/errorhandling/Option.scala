@@ -1,5 +1,7 @@
 package errorhandling
 
+import scala.util.control.Exception._
+
 sealed trait Option[+A] {
   def map[B](f: A => B): Option[B] = this match {
     case Some(g) => Some(f(g))
@@ -41,4 +43,10 @@ object Chapter4 {
       }
     )
   }
+
+  def map2[A,B,C](a: Option[A], b: Option[B])(f: (A,B) => C): Option[C] =
+    a.flatMap(_a => b.flatMap(_b => Some(f(_a, _b))))
+
+//  def sequesnce[A](a: List[Option[A]]): Option[List[A]] = {
+//  }
 }
