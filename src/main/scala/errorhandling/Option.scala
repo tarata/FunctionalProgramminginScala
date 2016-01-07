@@ -47,6 +47,19 @@ object Chapter4 {
   def map2[A,B,C](a: Option[A], b: Option[B])(f: (A,B) => C): Option[C] =
     a.flatMap(_a => b.flatMap(_b => Some(f(_a, _b))))
 
-//  def sequesnce[A](a: List[Option[A]]): Option[List[A]] = {
-//  }
+  def sequence[A](a: List[Option[A]]): Option[List[A]] = {
+    a match {
+      case Nil => Some(Nil)
+      case (h :: t) => h.flatMap(hx => sequence(t).map(hx :: _))
+    }
+  }
+
+  def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] =
+    a match {
+      case Nil => Some(Nil)
+      case (h :: t) => f(h).flatMap(hx => traverse(t)(f).map(hx :: _))
+    }
+
+  def parseInts(a: List[String]): Option[List[Int]] =
+    traverse(a)(str => try {Some(str.toInt)} catch {case e: Exception => None})
 }
