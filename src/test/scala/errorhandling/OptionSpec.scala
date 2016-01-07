@@ -25,6 +25,29 @@ class Chapter4Spec extends FreeSpec with Matchers {
       }
     }
   }
+
+  "Ex 4.4" - {
+    "sequence" - {
+      "return Some(List(1,2))" in {
+        sequence(List(Some(1), Some(2))) shouldBe Some(List(1,2))
+      }
+    }
+  }
+
+  "Ex 4.5" - {
+    "traverse" - {
+
+      "parseInts" - {
+        "return Some(List(1,2,3))" in {
+          parseInts(List("1","2","3")) shouldBe Some(List(1,2,3))
+        }
+
+        "return None" in {
+          parseInts(List("1","hoge")) shouldBe None
+        }
+      }
+    }
+  }
 }
 
 class OptionSpec extends FreeSpec with Matchers{
