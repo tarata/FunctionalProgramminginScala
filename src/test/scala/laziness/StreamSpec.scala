@@ -90,6 +90,46 @@ class StreamSpec extends FreeSpec with Matchers {
         Stream(1,2,3).flatMap(i => Stream(i,i)).toList shouldBe List(1,1,2,2,3,3)
       }
     }
+
+    "from" - {
+      "should return List(3,4,5,6,7)" in {
+        Stream.from(3).take(5).toList shouldBe List(3,4,5,6,7)
+      }
+    }
+
+    "constant" - {
+      "should return List(5,5,5)" in {
+        Stream.constant(5).take(3).toList shouldBe List(5,5,5)
+      }
+    }
+
+    "fibs" - {
+      "should return List(0,1,1,2,3,5)" in {
+        Stream.fibs(0,1).take(6).toList shouldBe List(0,1,1,2,3,5)
+      }
+    }
+
+    "ones" - {
+      "should return List(1,1)" in {
+        Stream.ones.take(2).toList shouldBe List(1,1)
+      }
+    }
+    "fibs2" - {
+      "should return List(0,1,1,2,3,5)" in {
+        Stream.fibs2(0,1).take(6).toList shouldBe List(0,1,1,2,3,5)
+      }
+    }
+    "from2" - {
+      "should return List(3,4,5,6,7)" in {
+        Stream.from2(3).take(5).toList shouldBe List(3,4,5,6,7)
+      }
+    }
+    "constant2" - {
+      "should return List(5,5,5)" in {
+        Stream.constant2(5).take(3).toList shouldBe List(5,5,5)
+      }
+    }
   }
+
 
 }
