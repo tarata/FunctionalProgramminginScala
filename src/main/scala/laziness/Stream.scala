@@ -43,6 +43,14 @@ trait Stream[+A] {
   def forAll(p: A => Boolean): Boolean = foldRight(true)((a, b) => p(a) && b)
 
   def takeWhile2(p: A => Boolean): Stream[A] = foldRight(Stream.empty[A])((a, b) => if(p(a)) Stream.cons(a, b) else b)
+
+  def map[B](f: A => B): Stream[B] = foldRight(Stream.empty[B])((a, b) => Stream.cons(f(a), b))
+
+  def filter(f: A => Boolean): Stream[A] = foldRight(Stream.empty[A])((a, b) => if(f(a)) Stream.cons(a,b) else b)
+
+  def append[B >: A](as: Stream[B]): Stream[B] = foldRight(as)((a, b) => Stream.cons(a,b))
+
+  def flatMap[B](f: A => Stream[B]): Stream[B] = foldRight(Stream.empty[B])((a, b) => f(a).append(b))
 }
 
 case object Empty extends Stream[Nothing]
