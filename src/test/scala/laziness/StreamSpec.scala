@@ -66,6 +66,12 @@ class StreamSpec extends FreeSpec with Matchers {
         Stream(1,2,3).forAll(i => i%2 == 1) shouldBe false
       }
     }
+
+    "takeWhile2" - {
+      "should return Stream(1,3)" in {
+        Stream(1,2,3).takeWhile2(i => i%2 == 1).toList shouldBe List(1,3)
+      }
+    }
   }
 
 }
