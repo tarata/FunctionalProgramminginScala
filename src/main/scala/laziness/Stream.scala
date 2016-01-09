@@ -42,6 +42,7 @@ trait Stream[+A] {
 
   def forAll(p: A => Boolean): Boolean = foldRight(true)((a, b) => p(a) && b)
 
+  def takeWhile2(p: A => Boolean): Stream[A] = foldRight(Stream.empty[A])((a, b) => if(p(a)) Stream.cons(a, b) else b)
 }
 
 case object Empty extends Stream[Nothing]
