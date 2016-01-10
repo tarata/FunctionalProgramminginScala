@@ -15,7 +15,7 @@ case class SimpleRNG(seed: Long) extends RNG {
 
 
 object RNG {
-  type Rand[+A] = RNG => (A, RNG)
+  type Rand[+A] = State.State[RNG, A]
   val int: Rand[Int] = _.nextInt
 
   def unit[A](a: A): Rand[A] = rng => (a,rng)
@@ -108,11 +108,32 @@ object RNG {
   }
 
   def ints2(count: Int): Rand[List[Int]] = sequence(List.fill(count)(rng => rng.nextInt))
-
-
 }
 
-object State {
+case class State[S, +A](run: S => (A, S))
 
+object State {
+  type State[S, +A] = S => (A, S)
+
+  def unit[S, A](a: A): State[S, A] = s => (a, s)
+
+  def flatMap[S, A, B](f: State[S, A])(g: A => State[S, B]): State[S, B] = state => {
+    val (a, r) = f(state)
+    g(a)(r)
+  }
+
+  def map[S, A, B](s: State[S, A])(f: A => B): State[S, B] = flatMap(s)(a => rng => (f(a), rng))
+
+  def sequence[S, A](fs: List[State[S, A]]): State[S, List[A]] = s => {
+    def loop(rest: List[State[S, A]], r: S = s, ret: List[A] = Nil): (List[A], S) = {
+      rest match {
+        case (h :: t) =>
+          val (a, rr) = h(r)
+          loop(t, rr, a :: ret)
+        case Nil => (ret, r)
+      }
+    }
+    loop(fs)
+  }
 }
 
