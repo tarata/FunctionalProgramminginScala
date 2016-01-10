@@ -86,8 +86,12 @@ class StreamSpec extends FreeSpec with Matchers {
     }
 
     "flatMap" - {
-      "flatMap of List(1,2,3)(i => List(i,i)) should be List(1,1,2,2,3,3)" in {
+      "flatMap of Stream(1,2,3)(i => Stream(i,i)) should be Stream(1,1,2,2,3,3)" in {
         Stream(1,2,3).flatMap(i => Stream(i,i)).toList shouldBe List(1,1,2,2,3,3)
+      }
+
+      "flatMap of Stream() should be Stream()" in {
+        Stream().flatMap(i => i) shouldBe Stream.empty
       }
     }
 
@@ -127,6 +131,12 @@ class StreamSpec extends FreeSpec with Matchers {
     "constant2" - {
       "should return List(5,5,5)" in {
         Stream.constant2(5).take(3).toList shouldBe List(5,5,5)
+      }
+    }
+
+    "tails" - {
+      "should return expected" in {
+        Stream(1,2,3).tails.toList.map(_.toList) shouldBe List(List(1,2,3), List(2,3), List(3), Nil)
       }
     }
   }
