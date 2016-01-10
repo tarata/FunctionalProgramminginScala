@@ -31,6 +31,20 @@ object State {
     (f(a, b), rng3)
   }
 
+  def both[A, B](ra: Rand[A], rb: Rand[B]): Rand[(A, B)] = map2(ra, rb)((_, _))
+
+  def sequence[A](fs: List[Rand[A]]): Rand[List[A]] = rng => {
+    def loop(rest: List[Rand[A]], r: RNG = rng, ret: List[A] = Nil): (List[A], RNG) = {
+      rest match {
+        case (h :: t) =>
+          val (a, rr) = h(r)
+          loop(t, rr, a :: ret)
+        case Nil => (ret, r)
+      }
+    }
+    loop(fs)
+  }
+
   def nonNegativeInt(rng: RNG): (Int, RNG) = rng.nextInt match {
     case (i, r) if i < 0 => (- (i + 1), r)
     case (i, r) => (i, r)
@@ -74,6 +88,8 @@ object State {
       }
     loop(count, rng)
   }
+
+  def ints2(count: Int): Rand[List[Int]] = sequence(List.fill(count)(rng => rng.nextInt))
 
 }
 
