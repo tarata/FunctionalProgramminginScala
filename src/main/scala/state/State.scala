@@ -36,6 +36,11 @@ object State {
     g(a)(r)
   }
 
+  def map3[A, B](s: Rand[A])(f: A => B): Rand[B] = flatMap(s)(a => rng => (f(a), rng))
+
+//  def map4[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] =
+//    flatMap(ra)(map3(_)(a => map3(rb)(b => f(a, b))(rng)))
+
   def nonNegativeLessThan(n: Int): Rand[Int] = flatMap(nonNegativeInt){i =>
     val mod = i % n
     if(i + (n - 1) - mod >= 0)
