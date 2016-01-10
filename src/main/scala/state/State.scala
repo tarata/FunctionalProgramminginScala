@@ -13,7 +13,7 @@ case class SimpleRNG(seed: Long) extends RNG {
   }
 }
 
-object RNG {
+object State {
   def nonNegativeInt(rng: RNG): (Int, RNG) = rng.nextInt match {
     case (i, r) if i < 0 => (- (i + 1), r)
     case (i, r) => (i, r)
@@ -31,8 +31,8 @@ object RNG {
   }
 
   def doubleInt(rng: RNG):((Double, Int), RNG) = {
-    val (d, r1) = double(r1)
-    val (i, r2) = nonNegativeInt(rng)
+    val (d, r1) = double(rng)
+    val (i, r2) = nonNegativeInt(r1)
     ((d, i), r2)
   }
 
@@ -43,6 +43,16 @@ object RNG {
     ((d1,d2,d3), r3)
   }
 
+  def ints(count: Int)(rng: RNG): (List[Int], RNG) = {
+    def loop(c: Int, r1: RNG, ret: List[Int] = Nil): (List[Int], RNG) =
+      if(c <= 0)
+        (ret, r1)
+      else {
+        val (i, r2) = r1.nextInt
+        loop(c - 1, r2, i :: ret)
+      }
+    loop(count, rng)
+  }
 
 }
 
