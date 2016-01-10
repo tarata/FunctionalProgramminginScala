@@ -31,6 +31,19 @@ object State {
     (f(a, b), rng3)
   }
 
+  def flatMap[A, B](f: Rand[A])(g: A => Rand[B]): Rand[B] = rng => {
+    val (a, r) = f(rng)
+    g(a)(r)
+  }
+
+  def nonNegativeLessThan(n: Int): Rand[Int] = flatMap(nonNegativeInt){i =>
+    val mod = i % n
+    if(i + (n - 1) - mod >= 0)
+      rng => (mod, rng)
+    else
+      nonNegativeLessThan(n)
+  }
+
   def both[A, B](ra: Rand[A], rb: Rand[B]): Rand[(A, B)] = map2(ra, rb)((_, _))
 
   def sequence[A](fs: List[Rand[A]]): Rand[List[A]] = rng => {
@@ -90,6 +103,7 @@ object State {
   }
 
   def ints2(count: Int): Rand[List[Int]] = sequence(List.fill(count)(rng => rng.nextInt))
+
 
 }
 
