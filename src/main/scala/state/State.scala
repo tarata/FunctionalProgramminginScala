@@ -14,7 +14,7 @@ case class SimpleRNG(seed: Long) extends RNG {
 }
 
 
-object State {
+object RNG {
   type Rand[+A] = RNG => (A, RNG)
   val int: Rand[Int] = _.nextInt
 
@@ -38,8 +38,8 @@ object State {
 
   def map3[A, B](s: Rand[A])(f: A => B): Rand[B] = flatMap(s)(a => rng => (f(a), rng))
 
-//  def map4[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] =
-//    flatMap(ra)(map3(_)(a => map3(rb)(b => f(a, b))(rng)))
+  //  def map4[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] =
+  //    flatMap(ra)(map3(_)(a => map3(rb)(b => f(a, b))(rng)))
 
   def nonNegativeLessThan(n: Int): Rand[Int] = flatMap(nonNegativeInt){i =>
     val mod = i % n
@@ -109,6 +109,10 @@ object State {
 
   def ints2(count: Int): Rand[List[Int]] = sequence(List.fill(count)(rng => rng.nextInt))
 
+
+}
+
+object State {
 
 }
 
