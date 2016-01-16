@@ -26,7 +26,9 @@ object MyGen {
 
   def listOf[A](a: MyGen[A]): MyGen[List[A]] = ???
 
-  def listOfN[A](n: Int, a: MyGen[A]): MyGen[List[A]] = ???
+  def listOfN[A](n: Int, a: MyGen[A]): MyGen[List[A]] = MyGen(State.sequence(List.fill(n)(a.sample)))
+
+  def boolean: MyGen[Boolean] = MyGen(State.map(choose(0,1).sample)(i => i > 0))
 
   def forAll[A](a: MyGen[A])(f: A => Boolean): Prop = ???
 
