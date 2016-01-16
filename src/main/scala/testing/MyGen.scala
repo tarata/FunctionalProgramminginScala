@@ -1,5 +1,7 @@
 package testing
 
+import state.{SimpleRNG, RNG, State}
+
 
 object Prop {
   type SuccessCount = Int
@@ -20,11 +22,20 @@ trait Prop {
 
 
 object MyGen {
+  val simpleRNG = SimpleRNG(1)
+
   def listOf[A](a: MyGen[A]): MyGen[List[A]] = ???
 
   def listOfN[A](n: Int, a: MyGen[A]): MyGen[List[A]] = ???
 
   def forAll[A](a: MyGen[A])(f: A => Boolean): Prop = ???
+
+  def choose(start: Int, stopExclusive: Int): MyGen[Int] =
+    MyGen(State[RNG, Int](s => {
+      val (i, r) = RNG.nonNegativeInt(s)
+      (i % (stopExclusive - start)+ start, r)
+    }))
+
 }
 
-trait MyGen[A]
+case class MyGen[A](sample: State[RNG, A])
