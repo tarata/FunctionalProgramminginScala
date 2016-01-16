@@ -1,7 +1,6 @@
 package testing
-import state.State
 import state.State.State
-import state.{SimpleRNG, RNG, State}
+import state.{RNG, State}
 
 
 object Prop {
@@ -23,8 +22,6 @@ trait Prop {
 
 
 object MyGen {
-  val simpleRNG = SimpleRNG(1)
-
   def unit[A](a: => A): MyGen[A] = MyGen(State.unit(a))
 
   def listOf[A](a: MyGen[A]): MyGen[List[A]] = ???
