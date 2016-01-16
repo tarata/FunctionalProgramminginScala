@@ -3,7 +3,9 @@ package testing
 trait MyGen[A]
 
 trait Prop {
-  def &&(p: Prop): Prop = ???
+  def &&(p: Prop): Prop = new Prop {
+    def check: Boolean = Prop.this.check && p.check
+  }
 
   def check: Boolean
 }
