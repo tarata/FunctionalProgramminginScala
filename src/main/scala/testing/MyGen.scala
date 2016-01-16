@@ -1,5 +1,6 @@
 package testing
-
+import state.State
+import state.State.State
 import state.{SimpleRNG, RNG, State}
 
 
@@ -24,6 +25,8 @@ trait Prop {
 object MyGen {
   val simpleRNG = SimpleRNG(1)
 
+  def unit[A](a: => A): MyGen[A] = MyGen(State.unit(a))
+
   def listOf[A](a: MyGen[A]): MyGen[List[A]] = ???
 
   def listOfN[A](n: Int, a: MyGen[A]): MyGen[List[A]] = ???
@@ -31,10 +34,7 @@ object MyGen {
   def forAll[A](a: MyGen[A])(f: A => Boolean): Prop = ???
 
   def choose(start: Int, stopExclusive: Int): MyGen[Int] =
-    MyGen(State[RNG, Int](s => {
-      val (i, r) = RNG.nonNegativeInt(s)
-      (i % (stopExclusive - start)+ start, r)
-    }))
+    MyGen(State.map(RNG.nonNegativeInt)(i => i % (stopExclusive - start)+ start))
 
 }
 
