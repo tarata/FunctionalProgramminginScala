@@ -2,6 +2,7 @@ package testing
 
 import org.scalacheck.{Gen, Properties}
 import org.scalacheck.Prop._
+import state.SimpleRNG
 
 class GenSpec extends Properties("List") {
 
@@ -27,4 +28,13 @@ class GenSpec extends Properties("List") {
   property("List.max") = forAll(Gen.nonEmptyListOf(Gen.choose(0, 100))) {ns =>
     ns.max == ns.reverse.max
   }
+
+  property("MyGen.choose") = forAll(
+    Gen.choose(0, 100),
+    Gen.choose(100, 200),
+    Gen.choose(0l, 100l)
+  )((a: Int, b:Int, c: Long) => {
+    val (i, _) = MyGen.choose(a, b).sample(SimpleRNG(c))
+    a <= i && i <= b
+  })
 }
