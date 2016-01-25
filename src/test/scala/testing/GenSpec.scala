@@ -34,7 +34,7 @@ class GenSpec extends Properties("List") {
     Gen.choose(100, 200),
     Gen.choose(0l, 100l)
   )((a: Int, b:Int, c: Long) => {
-    val (i, _) = MyGen.choose(a, b).sample(SimpleRNG(c))
+    val (i, _) = MyGen.choose(a, b).state(SimpleRNG(c))
     a <= i && i <= b
   })
 }
