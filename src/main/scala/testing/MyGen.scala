@@ -35,7 +35,8 @@ object MyGen {
   def choose(start: Int, stopExclusive: Int): MyGen[Int] =
     MyGen(State.map(RNG.nonNegativeInt)(i => i % (stopExclusive - start)+ start))
 
-  def union[A](g1: MyGen[A], g2: MyGen[A]): MyGen[A] =  ???
+  def union[A](g1: MyGen[A], g2: MyGen[A]): MyGen[A] =
+    boolean.flatMap(b => if(b) g1 else g2)
 
 }
 
