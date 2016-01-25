@@ -38,6 +38,13 @@ object MyGen {
   def union[A](g1: MyGen[A], g2: MyGen[A]): MyGen[A] =
     boolean.flatMap(b => if(b) g1 else g2)
 
+  def weighted[A](g1: (MyGen[A], Double), g2: (MyGen[A], Double)): MyGen[A] = {
+    val (a1, d1) = g1
+    val (a2, d2) = g2
+    val threshold = d1 / (d1 + d2)
+    MyGen(State.map(choose(0,1).state)(i => i.toDouble > threshold)).flatMap(b => if(b) a2 else a1)
+  }
+
 }
 
 case class MyGen[A](state: State[RNG, A]) {
