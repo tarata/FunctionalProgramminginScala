@@ -26,19 +26,21 @@ object MyGen {
 
   def listOf[A](a: MyGen[A]): MyGen[List[A]] = ???
 
-  def listOfN[A](n: Int, a: MyGen[A]): MyGen[List[A]] = MyGen(State.sequence(List.fill(n)(a.sample)))
+  def listOfN[A](n: Int, a: MyGen[A]): MyGen[List[A]] = MyGen(State.sequence(List.fill(n)(a.state)))
 
-  def boolean: MyGen[Boolean] = MyGen(State.map(choose(0,1).sample)(i => i > 0))
+  def boolean: MyGen[Boolean] = MyGen(State.map(choose(0,1).state)(i => i > 0))
 
   def forAll[A](a: MyGen[A])(f: A => Boolean): Prop = ???
 
   def choose(start: Int, stopExclusive: Int): MyGen[Int] =
     MyGen(State.map(RNG.nonNegativeInt)(i => i % (stopExclusive - start)+ start))
 
+  def union[A](g1: MyGen[A], g2: MyGen[A]): MyGen[A] =  ???
+
 }
 
-case class MyGen[A](sample: State[RNG, A]) {
-  def flatMap[B](f: A => MyGen[B]): MyGen[B] = MyGen(State.flatMap(sample)(a => f(a).sample))
+case class MyGen[A](state: State[RNG, A]) {
+  def flatMap[B](f: A => MyGen[B]): MyGen[B] = MyGen(State.flatMap(state)(a => f(a).state))
 
-  def listOfN(size: MyGen[Int]): MyGen[List[A]] = size.flatMap(i => MyGen(State.sequence(List.fill(i)(sample))))
+  def listOfN(size: MyGen[Int]): MyGen[List[A]] = size.flatMap(i => MyGen(State.sequence(List.fill(i)(state))))
 }
