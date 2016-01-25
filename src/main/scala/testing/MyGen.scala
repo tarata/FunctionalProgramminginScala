@@ -37,4 +37,8 @@ object MyGen {
 
 }
 
-case class MyGen[A](sample: State[RNG, A])
+case class MyGen[A](sample: State[RNG, A]) {
+  def flatMap[B](f: A => MyGen[B]): MyGen[B] = MyGen(State.flatMap(sample)(a => f(a).sample))
+
+  def listOfN(size: MyGen[Int]): MyGen[List[A]] = size.flatMap(i => MyGen(State.sequence(List.fill(i)(sample))))
+}
