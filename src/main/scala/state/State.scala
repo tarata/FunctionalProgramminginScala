@@ -110,6 +110,7 @@ object RNG {
   def ints2(count: Int): Rand[List[Int]] = sequence(List.fill(count)(rng => rng.nextInt))
 }
 
+//case class State[S, A](run: State.State)
 
 object State {
   type State[S, +A] = S => (A, S)
