@@ -65,7 +65,32 @@ class MonoidSpec extends FreeSpec with Matchers {
         boolAnd.op(boolAnd.zero, true) shouldBe true
         boolAnd.op(true, boolAnd.zero) shouldBe true
       }
+    }
 
+    "10.2" in {
+      def optionMonoid[A]: Monoid[Option[A]] = new Monoid[Option[A]] {
+        override def op(a1: Option[A], a2: Option[A]): Option[A] = a1 orElse a2
+
+        override def zero: Option[A] = None
+      }
+
+      // TODO
+
+    }
+
+    "10.3" in {
+      def endoMonoid[A]: Monoid[A => A] = new Monoid[A => A] {
+        override def op(a1: (A) => A, a2: (A) => A): (A) => A = a1.andThen(a2)
+
+        override def zero: (A) => A = (a: A) => a
+      }
+
+
+      def plusOne(x: Int): Int = x + 1
+      endoMonoid[Int].op(endoMonoid[Int].op(x => x + 1 , x => x + 2), x => x + 3).apply(10) shouldBe
+        endoMonoid[Int].op(x => x + 1, endoMonoid[Int].op( x => x + 2, x => x + 3)).apply(10)
+      endoMonoid[Int].op(endoMonoid[Int].zero, plusOne).apply(10) shouldBe plusOne(10)
+      endoMonoid[Int].op( x => x + 1, endoMonoid[Int].zero).apply(10) shouldBe plusOne(10)
     }
   }
 
